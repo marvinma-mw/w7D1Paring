@@ -42,7 +42,7 @@ const recurBSearch = (nums, targetNum) => {
   // we know it's equal so return true
 }
 
-console.log(recurBSearch([11, 12, 13, 14, 15, 16, 17, 18, 19],18));
+console.log('first version: ' , recurBSearch([11, 12, 13, 14, 15, 16, 17, 18, 19],18));
 
 
 
@@ -55,30 +55,43 @@ targetNum is within the nums array.
 *******************************************************************/
 
 const iterBSearch = (nums, targetNum) => {
+  let lowerIdx = 0;
+  let midIdx;
+  let upperIdx = nums.length -1;
   // Save references to indices at the beginning, middle, and end of the array
   // into variables: lowerIdx, midIdx, and upperIdx
 
+    while (lowerIdx <= upperIdx) {
+      console.log('inside while loop');
+
   // while the lowerIdx is less than or equal to the upperIdx, there are still
   // values to be searched
-
+  midIdx = Math.floor((lowerIdx + upperIdx) / 2);
+  console.log(midIdx);
   // reassign the midIdx to the the middle of the new lower and upper indices
   // Hint: This is the sum of lower and upper, divided by 2
-
-  // if targetNum is larger than the value in the middle, we know targetNum is
+      if (targetNum > nums[midIdx]) {
+        lowerIdx = midIdx;
+        // if targetNum is larger than the value in the middle, we know targetNum is
   // not between the current lower and current middle, so reassign the lowerIdx
   // to the middle (ie cut off the left half of the array)
-
-  // if targetNum is less than the value in the middle, we know targetNum is not
-  // between the current upper and current middle, so reassign the upperIdx
-  // to the middle (ie cut off the right half of the array)
-
-  // if it's not greater than or less than (ie 'else'), we have found our target
-  // at the midIdx and can return true and stop iterating.
+      } else if (targetNum < nums[midIdx]) {
+        upperIdx = midIdx;
+        // if targetNum is less than the value in the middle, we know targetNum is not
+        // between the current upper and current middle, so reassign the upperIdx
+        // to the middle (ie cut off the right half of the array)
+      } else {
+        return true
+          // if it's not greater than or less than (ie 'else'), we have found our target
+          // at the midIdx and can return true and stop iterating.
+      }
 
   // if we finish our while loop and haven't returned true, we've looked over
   // the entire array and didn't find targetNum, so return false
+    }
+    return false
 }
-
+console.log('second version: ' ,iterBSearch([11, 12, 13, 14, 15, 16, 17, 18, 19],18));
 
 /*******************************************************************
 BINARY SEARCH VERSION 3:
@@ -88,6 +101,25 @@ is in the nums array, and -1 if it is not found.
 *******************************************************************/
 
 const recurBSearchIdx = (nums, targetNum) => {
+  if(nums.length===0){
+    return false;
+  }
+
+  let middle= Math.floor(nums.length/2);
+  let left=nums.slice(0,middle);
+  let right=nums.slice(middle);
+
+
+  if(nums[middle]===targetNum){
+    return true;
+  }else if(nums[middle]>targetNum){
+    return recurBSearch(left,targetNum);
+  }else{
+    return recurBSearch(right,targetNum);
+  }
+  // if it's not greater than or less than (i.e. 'else'),
+  // we know it's equal so return true
+}
   // this implementation is identical to version 1, except rather than
   // returning true/false, return the index where you found the item
   // (instead of true) or -1 (instead of false).
@@ -97,7 +129,7 @@ const recurBSearchIdx = (nums, targetNum) => {
   // on the 'right half' recursion. in that, try saving the return value of the
   // recursive call into a variable, and adding it to the current stack-frame's
   // midIdx + 1.
-}
+
 
 
 /*******************************************************************
