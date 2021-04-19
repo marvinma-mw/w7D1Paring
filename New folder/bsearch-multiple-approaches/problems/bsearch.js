@@ -102,23 +102,24 @@ is in the nums array, and -1 if it is not found.
 
 const recurBSearchIdx = (nums, targetNum) => {
   if(nums.length===0){
-    return false;
+    return -1;
   }
 
-  let middle= Math.floor(nums.length/2);
-  let left=nums.slice(0,middle);
-  let right=nums.slice(middle);
+  let middleIndex= Math.floor(nums.length/2);
+  let left=nums.slice(0,middleIndex);
+  let right=nums.slice(middleIndex+1);
 
-
-  if(nums[middle]===targetNum){
-    return true;
-  }else if(nums[middle]>targetNum){
-    return recurBSearch(left,targetNum);
+  if(nums[middleIndex] === targetNum) {
+    return middleIndex
+  } else if(nums[middleIndex]>targetNum){
+    return recurBSearch(left, targetNum);
   }else{
-    return recurBSearch(right,targetNum);
+    let recursion = recurBSearch(right, targetNum);
+    if (recursion === -1) {
+      return -1
+    }
+    return middleIndex + recursion + 1
   }
-  // if it's not greater than or less than (i.e. 'else'),
-  // we know it's equal so return true
 }
   // this implementation is identical to version 1, except rather than
   // returning true/false, return the index where you found the item
